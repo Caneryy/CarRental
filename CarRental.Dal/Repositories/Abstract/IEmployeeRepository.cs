@@ -9,5 +9,6 @@ namespace CarRental.Dal.Repositories.Abstract
 {
     public interface IEmployeeRepository : IRepository<Employee>
     {
+        Employee GetByUserId(string userId);
     }
 }

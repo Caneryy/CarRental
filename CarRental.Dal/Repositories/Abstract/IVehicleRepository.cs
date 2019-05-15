@@ -9,5 +9,6 @@ namespace CarRental.Dal.Repositories.Abstract
 {
     public interface IVehicleRepository : IRepository<Vehicle>
     {
+        List<Vehicle> GetByCompanyId(int companydId);
     }
 }

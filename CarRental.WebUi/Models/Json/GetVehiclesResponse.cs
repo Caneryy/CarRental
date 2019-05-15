@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace CarRental.Entity
+namespace CarRental.WebUi.Models.Json
 {
-    public class Vehicle
+    public class GetVehiclesResponse
     {
         public int Id { get; set; }
         public string Make { get; set; }
@@ -19,10 +18,6 @@ namespace CarRental.Entity
         public int DailyKmLimit { get; set; }
         public int AirBag { get; set; }
         public float DailyPrice { get; set; }
-
         public int CompanyId { get; set; }
-        public Company Company { get; set; }
-
-        public List<Rental> Rentals { get; set; }
     }
 }

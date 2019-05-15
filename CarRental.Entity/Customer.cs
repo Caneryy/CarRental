@@ -13,7 +13,10 @@ namespace CarRental.Entity
         public string SurName { get; set; }
         public string Sex { get; set; }
         public DateTime BirthDate { get; set; }
+        public string Email { get; set; }
         public string Phone { get; set; }
+        public string PasswordHash { get; set; }
+        public string UserId { get; set; }
 
         public List<Rental> Rentals { get; set; }
     }

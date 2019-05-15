@@ -1,0 +1,35 @@
+﻿@model CarRental.WebUi.Models.Vehicle.VehicleIndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<ul>
+    <li>Marka: @Model.Vehicle.Make</li>
+    <li>Seri: @Model.Vehicle.Serie</li>
+    <li>Model: @Model.Vehicle.Model</li>
+    <li>Yıl: @Model.Vehicle.Year</li>
+    <li>Yakıt: @Model.Vehicle.Fuel</li>
+    <li>Kilometre: @Model.Vehicle.Km</li>
+    <li>Ehliyet Yaşı: @Model.Vehicle.MinimumDrivingLicenceAge</li>
+    <li>Günlük Limit: @Model.Vehicle.DailyKmLimit</li>
+    <li>Airbag Sayısı: @Model.Vehicle.AirBag</li>
+    <li>Fiyat: @Model.Vehicle.DailyPrice</li>
+</ul>
+
+<div>
+    <ul class="list-group">
+        @foreach (var item in Model.Customers)
+        {
+            <li class="list-group-item asd" data-customerid="@item.Id">@item.Name @item.SurName</li>
+        }
+    </ul>
+</div>
+
+<script>
+    $(".asd").on('click', function () {
+        $(".list-group-item").removeClass("active");
+        $(this).addClass("active");
+    });
+</script>

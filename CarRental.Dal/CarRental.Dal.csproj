@@ -50,9 +50,9 @@
   <ItemGroup>
     <Compile Include="CarRentalContext.cs" />
     <Compile Include="IUnitOfWork.cs" />
-    <Compile Include="Migrations\201905011738581_First.cs" />
-    <Compile Include="Migrations\201905011738581_First.Designer.cs">
-      <DependentUpon>201905011738581_First.cs</DependentUpon>
+    <Compile Include="Migrations\201905030848587_InitialMigration.cs" />
+    <Compile Include="Migrations\201905030848587_InitialMigration.Designer.cs">
+      <DependentUpon>201905030848587_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,14 +77,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905011738581_First.resx">
-      <DependentUpon>201905011738581_First.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201905030848587_InitialMigration.resx">
+      <DependentUpon>201905030848587_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

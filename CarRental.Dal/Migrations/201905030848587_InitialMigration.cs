@@ -3,7 +3,7 @@ namespace CarRental.Dal.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class First : DbMigration
+    public partial class InitialMigration : DbMigration
     {
         public override void Up()
         {
@@ -27,11 +27,14 @@ namespace CarRental.Dal.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Surname = c.String(),
+                        UserName = c.String(),
+                        PasswordHash = c.String(),
                         CompanyId = c.Int(nullable: false),
+                        UserId = c.String(),
                         Role = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Companies", t => t.CompanyId, cascadeDelete: true)
+                .ForeignKey("dbo.Companies", t => t.CompanyId, cascadeDelete: false)
                 .Index(t => t.CompanyId);
             
             CreateTable(
@@ -49,9 +52,9 @@ namespace CarRental.Dal.Migrations
                         PaymentTaken = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Customers", t => t.CustomerId, cascadeDelete: true)
-                .ForeignKey("dbo.Employees", t => t.EmployeeId, cascadeDelete: true)
-                .ForeignKey("dbo.Vehicles", t => t.VehicleId, cascadeDelete: true)
+                .ForeignKey("dbo.Customers", t => t.CustomerId, cascadeDelete: false)
+                .ForeignKey("dbo.Employees", t => t.EmployeeId, cascadeDelete: false)
+                .ForeignKey("dbo.Vehicles", t => t.VehicleId, cascadeDelete: false)
                 .Index(t => t.EmployeeId)
                 .Index(t => t.VehicleId)
                 .Index(t => t.CustomerId);
@@ -65,7 +68,10 @@ namespace CarRental.Dal.Migrations
                         SurName = c.String(),
                         Sex = c.String(),
                         BirthDate = c.DateTime(nullable: false),
+                        Email = c.String(),
                         Phone = c.String(),
+                        PasswordHash = c.String(),
+                        UserId = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -84,17 +90,22 @@ namespace CarRental.Dal.Migrations
                         DailyKmLimit = c.Int(nullable: false),
                         AirBag = c.Int(nullable: false),
                         DailyPrice = c.Single(nullable: false),
+                        CompanyId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Companies", t => t.CompanyId, cascadeDelete: false)
+                .Index(t => t.CompanyId);
             
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.Rentals", "VehicleId", "dbo.Vehicles");
+            DropForeignKey("dbo.Vehicles", "CompanyId", "dbo.Companies");
             DropForeignKey("dbo.Rentals", "EmployeeId", "dbo.Employees");
             DropForeignKey("dbo.Rentals", "CustomerId", "dbo.Customers");
             DropForeignKey("dbo.Employees", "CompanyId", "dbo.Companies");
+            DropIndex("dbo.Vehicles", new[] { "CompanyId" });
             DropIndex("dbo.Rentals", new[] { "CustomerId" });
             DropIndex("dbo.Rentals", new[] { "VehicleId" });
             DropIndex("dbo.Rentals", new[] { "EmployeeId" });

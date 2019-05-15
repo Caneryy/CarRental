@@ -14,5 +14,10 @@ namespace CarRental.Dal.Repositories.Concrete
         {
         }
         public CarRentalContext CarRentalContext { get { return _context as CarRentalContext; } }
+
+        public List<Vehicle> GetByCompanyId(int companydId)
+        {
+            return CarRentalContext.Vehicles.Where(v => v.CompanyId == companydId).ToList();
+        }
     }
 }
