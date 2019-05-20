@@ -17,21 +17,26 @@ namespace CarRental.WebUi.Controllers
             if (Session["token"] == null || string.IsNullOrWhiteSpace(Session["token"].ToString()))
             {
                 ViewBag.Message = "Please Login";
-                return View();
+                return RedirectToAction("Login", "Account");
             }
 
             var client = new RestClient("http://localhost:19625/api/vehicle/GetVehicles");
             var request = new RestRequest(Method.POST);
-            request.AddHeader("postman-token", "56d8fd0c-76b1-7617-bf47-b3357423e424");
-            request.AddHeader("cache-control", "no-cache");
             request.AddHeader("authorization", "bearer " + Session["token"].ToString());
             IRestResponse response = client.Execute(request);
 
-            var responseModel = JsonConvert.DeserializeObject<List<GetVehiclesResponse>>(response.Content);
+            var getVehiclesResponse = JsonConvert.DeserializeObject<List<GetVehiclesResponse>>(response.Content);
+
+            client.BaseUrl = new Uri("http://localhost:19625/api/company/GetCompanyInfo");
+            response = client.Execute(request);
+
+            var getCompanyInfoResponse = JsonConvert.DeserializeObject<GetCompanyInfoResponse>(response.Content);
+
 
             var indexViewModel = new IndexViewModel
             {
-                Vehicles = responseModel
+                Vehicles = getVehiclesResponse,
+                CompanyName = getCompanyInfoResponse.Name
             };
 
             return View(indexViewModel);

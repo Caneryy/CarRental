@@ -2,34 +2,129 @@
 @{
     ViewBag.Title = "Index";
 }
+<style>
+    .customer-list-item {
+        cursor: pointer;
+    }
 
-<h2>Index</h2>
+    .bgwhite {
+        background-color: white;
+    }
+</style>
+<h2>Araç Kirala</h2>
 
-<ul>
-    <li>Marka: @Model.Vehicle.Make</li>
-    <li>Seri: @Model.Vehicle.Serie</li>
-    <li>Model: @Model.Vehicle.Model</li>
-    <li>Yıl: @Model.Vehicle.Year</li>
-    <li>Yakıt: @Model.Vehicle.Fuel</li>
-    <li>Kilometre: @Model.Vehicle.Km</li>
-    <li>Ehliyet Yaşı: @Model.Vehicle.MinimumDrivingLicenceAge</li>
-    <li>Günlük Limit: @Model.Vehicle.DailyKmLimit</li>
-    <li>Airbag Sayısı: @Model.Vehicle.AirBag</li>
-    <li>Fiyat: @Model.Vehicle.DailyPrice</li>
-</ul>
-
-<div>
-    <ul class="list-group">
-        @foreach (var item in Model.Customers)
-        {
-            <li class="list-group-item asd" data-customerid="@item.Id">@item.Name @item.SurName</li>
-        }
-    </ul>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Araç Bilgileri</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">Marka: <span class="pull-right">@Model.Vehicle.Make</span></li>
+                    <li class="list-group-item">Seri: <span class="pull-right">@Model.Vehicle.Serie</span></li>
+                    <li class="list-group-item">Model: <span class="pull-right">@Model.Vehicle.Model</span></li>
+                    <li class="list-group-item">Yıl: <span class="pull-right">@Model.Vehicle.Year</span></li>
+                    <li class="list-group-item">Yakıt: <span class="pull-right">@Model.Vehicle.Fuel</span></li>
+                    <li class="list-group-item">Kilometre: <span class="pull-right">@Model.Vehicle.Km</span></li>
+                    <li class="list-group-item">Ehliyet Yaşı: <span class="pull-right">@Model.Vehicle.MinimumDrivingLicenceAge</span></li>
+                    <li class="list-group-item">Günlük Limit: <span class="pull-right">@Model.Vehicle.DailyKmLimit</span></li>
+                    <li class="list-group-item">Airbag Sayısı: <span class="pull-right">@Model.Vehicle.AirBag</span></li>
+                    <li class="list-group-item">Fiyat: <span class="pull-right">@Model.Vehicle.DailyPrice</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Müşteri</h3>
+            </div>
+            <div class="panel-body">
+                <input type="text" id="customerFilter" class="form-control" placeholder="İsim giriniz" />
+                <br>
+                <ul class="list-group" id="customerList">
+                    @foreach (var item in Model.Customers)
+                    {
+                        <li class="list-group-item customer-list-item" data-customerid="@item.Id">@item.Name @item.SurName</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        Tarih:
+        <input id="dateRangePicker" type="text" class="form-control" />
+    </div>
 </div>
 
-<script>
-    $(".asd").on('click', function () {
-        $(".list-group-item").removeClass("active");
-        $(this).addClass("active");
-    });
-</script>
+@section scripts {
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+    <script>
+        $(".customer-list-item").on('click', function () {
+            $(".list-group-item").removeClass("active");
+            $(this).addClass("active");
+        });
+
+        $("#customerFilter").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#customerList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        //Seçili müşteriyi bulma
+        //$(".active:visible").data("customerid");
+        $('#dateRangePicker').daterangepicker({
+            "timePicker": true,
+            "timePicker24Hour": true,
+            "timePickerIncrement": 15,
+            "autoApply": true,
+            "locale": {
+                "format": "DD/MM/YYYY HH:mm",
+                "separator": " - ",
+                "applyLabel": "Tamam",
+                "cancelLabel": "İptal",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Pz",
+                    "Pt",
+                    "Sa",
+                    "Çr",
+                    "Pr",
+                    "Cu",
+                    "Ct"
+                ],
+                "monthNames": [
+                    "Ocak",
+                    "Şubat",
+                    "Mart",
+                    "Nisan",
+                    "Mayıs",
+                    "Haziran",
+                    "Temmuz",
+                    "Ağustos",
+                    "Eylül",
+                    "Ekim",
+                    "Kasım",
+                    "Aralık"
+                ],
+                "firstDay": 1
+            },
+            "startDate": "16/05/2019 12:00",
+            "endDate": "22/05/2019 15:00",
+            "opens": "center"
+        }, function (start, end, label) {
+            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+        });
+
+    </script>
+}

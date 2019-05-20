@@ -130,6 +130,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Home\IndexViewModel.cs" />
+    <Compile Include="Models\Json\GetCompanyInfoResponse.cs" />
     <Compile Include="Models\Json\GetVehiclesResponse.cs" />
     <Compile Include="Models\Json\LoginResponse.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
