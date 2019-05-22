@@ -32,7 +32,6 @@ namespace CarRental.WebUi.Controllers
 
             var getCompanyInfoResponse = JsonConvert.DeserializeObject<GetCompanyInfoResponse>(response.Content);
 
-
             var indexViewModel = new IndexViewModel
             {
                 Vehicles = getVehiclesResponse,
