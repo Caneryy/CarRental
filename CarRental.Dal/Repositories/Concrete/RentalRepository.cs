@@ -15,5 +15,22 @@ namespace CarRental.Dal.Repositories.Concrete
         {
         }
         public CarRentalContext CarRentalContext { get { return _context as CarRentalContext; } }
+
+        public List<Rental> GetByCompanyId(int companyId)
+        {
+            var employeeIds = CarRentalContext.Employees.Where(x => x.CompanyId == companyId).Select(s => s.Id).ToList();
+
+            return CarRentalContext.Rentals.Where(w => employeeIds.Contains(w.EmployeeId)).ToList();
+        }
+
+        public List<Rental> GetByEmployeeId(int employeeId)
+        {
+            return CarRentalContext.Rentals.Where(r => r.EmployeeId == employeeId).Include(i => i.Customer).Include(i => i.Vehicle).ToList();
+        }
+
+        public List<Rental> GetByVehicleId(int vehicleId)
+        {
+            return CarRentalContext.Rentals.Where(v => v.VehicleId == vehicleId).ToList();
+        }
     }
 }

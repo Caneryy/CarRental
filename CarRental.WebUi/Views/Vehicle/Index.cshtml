@@ -15,6 +15,7 @@
 
 @Html.HiddenFor(m => m.Vehicle.Id)
 @Html.Hidden("sesId", Session["token"].ToString())
+
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-primary">
@@ -101,7 +102,6 @@
             $.ajax({
                 url: "http://localhost:19625/api/rental/AddRental",
                 type: "POST",
-                
                 headers: {
                     "authorization": "bearer " + $("#sesId").val(),
                 },
@@ -112,12 +112,11 @@
                     endDate: dateArray[dateArray.length - 1]
                 },
                 success: function (result) {
-
+                    checkAvailability();
                 }
             });
 
         });
-
 
         $(".customer-list-item").on('click', function () {
             $(".list-group-item").removeClass("active");
@@ -131,70 +130,27 @@
             });
         });
 
+        var checkAvailability = function () {
+            $.ajax({
+                url: "http://localhost:19625/api/rental/GetByVehicleId",
+                type: "POST",
+                headers: {
+                    "authorization": "bearer " + $("#sesId").val(),
+                },
+                data: {
+                    vehicleId: $("#Vehicle_Id").val()
+                },
+                success: function (result) {
+                    $('#myDatePicker').multiDatesPicker({
+                        addDisabledDates: result.dates.map(function (a) {
+                            return new Date(a);
+                        })
+                    });
+                }
+            });
+        }
 
-
-        $('#myDatePicker').multiDatesPicker();
-
-
-
-                                    //var availableDates = ["9-5-2019", "14-5-2019", "15-5-2019"];
-
-                                    //function available(date) {
-                                    //    dmy = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
-                                    //    if ($.inArray(dmy, availableDates) != -1) {
-                                    //        return [true, "", "Available"];
-                                    //    } else {
-                                    //        return [false, "", "unAvailable"];
-                                    //    }
-                                    //}
-
-                                            //Seçili müşteriyi bulma
-                                            //$(".active:visible").data("customerid");
-                                            //$('#dateRangePicker').daterangepicker({
-                                            //    "timePicker": true,
-                                            //    "timePicker24Hour": true,
-                                            //    "timePickerIncrement": 15,
-                                            //    "autoApply": true,
-                                            //    "locale": {
-                                            //        "format": "DD/MM/YYYY HH:mm",
-                                            //        "separator": " - ",
-                                            //        "applyLabel": "Tamam",
-                                            //        "cancelLabel": "İptal",
-                                            //        "fromLabel": "From",
-                                            //        "toLabel": "To",
-                                            //        "customRangeLabel": "Custom",
-                                            //        "weekLabel": "W",
-                                            //        "daysOfWeek": [
-                                            //            "Pz",
-                                            //            "Pt",
-                                            //            "Sa",
-                                            //            "Çr",
-                                            //            "Pr",
-                                            //            "Cu",
-                                            //            "Ct"
-                                            //        ],
-                                            //        "monthNames": [
-                                            //            "Ocak",
-                                            //            "Şubat",
-                                            //            "Mart",
-                                            //            "Nisan",
-                                            //            "Mayıs",
-                                            //            "Haziran",
-                                            //            "Temmuz",
-                                            //            "Ağustos",
-                                            //            "Eylül",
-                                            //            "Ekim",
-                                            //            "Kasım",
-                                            //            "Aralık"
-                                            //        ],
-                                            //        "firstDay": 1
-                                            //    },
-                                            //    "startDate": "16/05/2019 12:00",
-                                            //    "endDate": "22/05/2019 15:00",
-                                            //    "opens": "center"
-                                            //}, function (start, end, label) {
-                                            //    console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-                                            //});
+        checkAvailability();
 
     </script>
 }

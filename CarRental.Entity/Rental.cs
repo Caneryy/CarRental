@@ -20,5 +20,7 @@ namespace CarRental.Entity
         public int GivenKm { get; set; }
         public int ReceiveKm { get; set; }
         public float PaymentTaken { get; set; }
+        public bool IsReceipt { get; set; } 
+        public int PassedKm { get; set; }
     }
 }

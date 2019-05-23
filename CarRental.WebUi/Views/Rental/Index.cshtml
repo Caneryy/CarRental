@@ -1,0 +1,44 @@
+﻿@model CarRental.WebUi.Models.Rental.RentalIndexViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Kiraladıklarım</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Araçlar</h2>
+        <div>
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>Araç</th>
+                        <th>Müşteri</th>
+                        <th>Veriş Tarihi</th>
+                        <th>Alış Tarihi</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Rentals)
+                    {
+                        <tr>
+                            <td>@item.Vehicle.Make @item.Vehicle.Serie @item.Vehicle.Model</td>
+                            <td>@item.Customer.Name @item.Customer.SurName</td>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+
+                            @if (item.IsReceipt)
+                            {
+                                <td>
+                                    <a class="btn btn-default btn-primary" href="Vehicle/Receipt/@item.Id" role="button">Teslim Al</a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
