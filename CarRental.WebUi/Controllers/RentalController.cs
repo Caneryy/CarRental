@@ -36,5 +36,30 @@ namespace CarRental.WebUi.Controllers
 
             return View(rentalIndexViewModel);
         }
+
+        public ActionResult Receipt(int id)
+        {
+            if (Session["token"] == null || string.IsNullOrWhiteSpace(Session["token"].ToString()))
+            {
+                ViewBag.Message = "Please Login";
+                return View();
+            }
+
+            var client = new RestClient("http://localhost:19625/api/rental/GetRental");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("content-type", "application/json");
+            request.AddHeader("authorization", "bearer " + Session["token"].ToString());
+            request.AddParameter("application/json", "{\n\"RentalId\":" + id + "\n}", ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            var rentalModel = JsonConvert.DeserializeObject<Rental>(response.Content);
+
+            var rentalIndexViewModel = new ReceiptViewModel
+            {
+                Rental = rentalModel
+            };
+
+            return View(rentalIndexViewModel);
+        }
     }
 }

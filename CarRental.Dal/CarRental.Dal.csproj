@@ -63,12 +63,14 @@
     <Compile Include="Repositories\Abstract\ICompanyRepository.cs" />
     <Compile Include="Repositories\Abstract\ICustomerRepository.cs" />
     <Compile Include="Repositories\Abstract\IEmployeeRepository.cs" />
+    <Compile Include="Repositories\Abstract\IInvoiceRepository.cs" />
     <Compile Include="Repositories\Abstract\IRentalRepository.cs" />
     <Compile Include="Repositories\Abstract\IRepository.cs" />
     <Compile Include="Repositories\Abstract\IVehicleRepository.cs" />
     <Compile Include="Repositories\Concrete\CompanyRepository.cs" />
     <Compile Include="Repositories\Concrete\CustomerRepository.cs" />
     <Compile Include="Repositories\Concrete\EmployeeRepository.cs" />
+    <Compile Include="Repositories\Concrete\InvoiceRepository.cs" />
     <Compile Include="Repositories\Concrete\RentalRepository.cs" />
     <Compile Include="Repositories\Concrete\Repository.cs" />
     <Compile Include="Repositories\Concrete\VehicleRepository.cs" />

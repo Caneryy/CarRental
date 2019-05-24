@@ -28,6 +28,11 @@ namespace CarRental.Dal.Repositories.Concrete
             return CarRentalContext.Rentals.Where(r => r.EmployeeId == employeeId).Include(i => i.Customer).Include(i => i.Vehicle).ToList();
         }
 
+        public Rental GetByIdWithAll(int id)
+        {
+            return CarRentalContext.Rentals.Where(r => r.Id == id).Include(i => i.Customer).Include(i => i.Vehicle).FirstOrDefault();
+        }
+
         public List<Rental> GetByVehicleId(int vehicleId)
         {
             return CarRentalContext.Rentals.Where(v => v.VehicleId == vehicleId).ToList();

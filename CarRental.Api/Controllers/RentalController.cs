@@ -77,6 +77,34 @@ namespace CarRental.Api.Controllers
             return Ok(new { rentalList, dates });
         }
 
+        [HttpPost]
+        [Route("api/rental/GetRental")]
+        [ActionName("GetRental")]
+        public IHttpActionResult GetRental(GetRentalRequest model)
+        {
+            var rental = unitOfWork.RentalRepository.GetByIdWithAll(model.RentalId);
+
+            return Ok(rental);
+        }
+
+        [HttpPost]
+        [Route("api/rental/UpdateRental")]
+        [ActionName("UpdateRental")]
+        public IHttpActionResult UpdateRental(UpdateRentalRequest model)
+        {
+            var rental = unitOfWork.RentalRepository.GetByIdWithAll(model.RentalId);
+
+            rental.PassedKm = model.PassedKm;
+            rental.IsReceipt = true;
+
+            rental.Vehicle.Km += model.PassedKm;
+            unitOfWork.Complete();
+
+            return Ok(rental);
+        }
+
+
+
         public class GetByVehicleIdRequest
         {
             public int VehicleId { get; set; }
@@ -88,6 +116,16 @@ namespace CarRental.Api.Controllers
             public int CustomerId { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
+        }
+        public class GetRentalRequest
+        {
+            public int RentalId { get; set; }
+        }
+
+        public class UpdateRentalRequest
+        {
+            public int RentalId { get; set; }
+            public int PassedKm { get; set; }
         }
     }
 }

@@ -12,5 +12,6 @@ namespace CarRental.Dal.Repositories.Abstract
         List<Rental> GetByVehicleId(int vehicleId);
         List<Rental> GetByEmployeeId(int employeeId);
         List<Rental> GetByCompanyId(int companyId);
+        Rental GetByIdWithAll(int id);
     }
 }

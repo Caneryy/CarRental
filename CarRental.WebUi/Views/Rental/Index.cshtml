@@ -1,5 +1,7 @@
 ﻿@model CarRental.WebUi.Models.Rental.RentalIndexViewModel
 @{
+    /**/
+
     ViewBag.Title = "Index";
 }
 
@@ -25,15 +27,14 @@
                         <tr>
                             <td>@item.Vehicle.Make @item.Vehicle.Serie @item.Vehicle.Model</td>
                             <td>@item.Customer.Name @item.Customer.SurName</td>
-                            <td>@item.StartDate</td>
-                            <td>@item.EndDate</td>
-
-                            @if (item.IsReceipt)
-                            {
-                                <td>
-                                    <a class="btn btn-default btn-primary" href="Vehicle/Receipt/@item.Id" role="button">Teslim Al</a>
-                                </td>
-                            }
+                            <td>@item.StartDate.ToShortDateString()</td>
+                            <td>@item.EndDate.ToShortDateString()</td>
+                            <td>
+                                @if (!item.IsReceipt)
+                                {
+                                    <a class="btn btn-default btn-primary" href="Rental/Receipt/@item.Id" role="button">Teslim Al</a>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>

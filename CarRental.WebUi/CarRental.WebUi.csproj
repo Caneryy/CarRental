@@ -135,6 +135,7 @@
     <Compile Include="Models\Json\GetVehiclesResponse.cs" />
     <Compile Include="Models\Json\LoginResponse.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\Rental\ReceiptViewModel.cs" />
     <Compile Include="Models\Rental\RentalIndexViewModel.cs" />
     <Compile Include="Models\Vehicle\VehicleIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -182,6 +183,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Vehicle\Index.cshtml" />
     <Content Include="Views\Rental\Index.cshtml" />
+    <Content Include="Views\Rental\Receipt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

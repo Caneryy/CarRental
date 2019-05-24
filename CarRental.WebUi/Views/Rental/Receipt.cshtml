@@ -1,0 +1,97 @@
+﻿@model CarRental.WebUi.Models.Rental.ReceiptViewModel
+
+@{
+    ViewBag.Title = "Receipt";
+}
+
+<h2>Teslim Al</h2>
+
+<style>
+    .customer-list-item {
+        cursor: pointer;
+    }
+
+    .bgwhite {
+        background-color: white;
+    }
+</style>
+<h2>Araç Kirala</h2>
+
+@Html.HiddenFor(m => m.Rental.Id)
+@Html.Hidden("sesId", Session["token"].ToString())
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Araç Bilgileri</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">Marka: <span class="pull-right">@Model.Rental.Vehicle.Make</span></li>
+                    <li class="list-group-item">Seri: <span class="pull-right">@Model.Rental.Vehicle.Serie</span></li>
+                    <li class="list-group-item">Model: <span class="pull-right">@Model.Rental.Vehicle.Model</span></li>
+                    <li class="list-group-item">Yıl: <span class="pull-right">@Model.Rental.Vehicle.Year</span></li>
+                    <li class="list-group-item">Yakıt: <span class="pull-right">@Model.Rental.Vehicle.Fuel</span></li>
+                    <li class="list-group-item">Kilometre: <span class="pull-right">@Model.Rental.Vehicle.Km</span></li>
+                    <li class="list-group-item">Ehliyet Yaşı: <span class="pull-right">@Model.Rental.Vehicle.MinimumDrivingLicenceAge</span></li>
+                    <li class="list-group-item">Günlük Limit: <span class="pull-right">@Model.Rental.Vehicle.DailyKmLimit</span></li>
+                    <li class="list-group-item">Airbag Sayısı: <span class="pull-right">@Model.Rental.Vehicle.AirBag</span></li>
+                    <li class="list-group-item">Fiyat: <span class="pull-right">@Model.Rental.Vehicle.DailyPrice</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Müşteri</h3>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group" id="customerList">
+                    <li class="list-group-item customer-list-item" data-customerid="@Model.Rental.Customer.Id">@Model.Rental.Customer.Name @Model.Rental.Customer.SurName</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Yapılan Km</h3>
+            </div>
+            <div class="panel-body">
+                <input type="text" id="txtPassedKm" class="form-control" />
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-12">
+        <button id="btnTeslimAl" type="button" class="btn btn-lg btn-success pull-right">Teslim Al</button>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $("#btnTeslimAl").on('click', function () {
+
+            $.ajax({
+                url: "http://localhost:19625/api/rental/UpdateRental",
+                type: "POST",
+                headers: {
+                    "authorization": "bearer " + $("#sesId").val(),
+                },
+                data: {
+                    rentalId: $("#Rental_Id").val(),
+                    passedKm: $("#txtPassedKm").val()
+                },
+                success: function (result) {
+                    //redirect
+                }
+            });
+
+        });
+    </script>
+}
+
